@@ -8,7 +8,7 @@ public class carRental {
         List<String[]> vehicles = new ArrayList<>();
 
         // Load vehicles from file
-        try {s
+        try {
             BufferedReader reader = new BufferedReader(new FileReader("vehicles.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
