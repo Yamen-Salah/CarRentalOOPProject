@@ -1,5 +1,0 @@
-Toyota,Camry,2020,50.0
-Honda,Civic,2019,45.0
-Tesla,Model 3,2021,100.0
-Ford,F150,2018,60.0
-BMW,330i,2022,80.0
