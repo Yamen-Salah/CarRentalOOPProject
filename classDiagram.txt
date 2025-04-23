@@ -1,0 +1,114 @@
+Class: Main
+---------------
+- scanner: Scanner
+- rentalManager: RentalManager
+- currentUser: User
+
++ void displayMenu()
++ void option1()
++ void option2()
++ void option3()
++ void option4()
++ void main(String[] args)
+
+
+Class: RentalManager
+---------------
+- rentals: List<Rental>
+
++ loadRentals()
++ saveRentals()
++ addRental(Rental r)
++ findRentalByUser(User u)
++ findRentalByVehicle(Vehicle v)
+
+
+Class: UserManager
+---------------
+- users: List<User>
+
++ loadUsers()
++ saveUsers()
+
+
+Class: User
+---------------
+- name: String
+- email: String
+
++ getters and constructor
+
+
+Class: VehicleManager
+---------------
++ loadVehicles()
++ saveVehicles()
+
+
+Class: Vehicle
+---------------
+- make: String
+- model: String
+- year: int
+- pricePerDay: double
+
++ void displayInfo()
+
+
+Class: Rental
+---------------
+- vehicle: Vehicle
+- startDate: LocalDate
+- endDate: LocalDate
+
++ double calculateCost()
++ LocalDate getReturnDate()
+
+
+Class: FixedDurationRental (extends Rental)
+---------------
+- numberOfDays: int
+- insuranceIncluded: boolean
+- discountRate: double
+
++ double calculateCost()
++ LocalDate getReturnDate()
++ boolean isEligibleForDiscount()
++ double applyDiscountIfEligible()
+
+
+Class: RentToOwnRental (extends Rental)
+---------------
+- purchasePrice: double
+- monthlyInstallment: double
+- monthsUntilOwnership: int
+- hasPurchased: boolean
+
++ double calculateCost()
++ boolean isOwnershipReached()
++ void completePurchase()
+
+
+Class: MonthToMonthRental (extends Rental)
+---------------
+- monthsRented: int
+- autoRenewing: boolean
+- billingEnd: LocalDate
+
++ double calculateCost()
++ LocalDate getReturnDate()
++ LocalDate nextBillingDate()
++ void cancelAutoRenew()
+
+
+Relationships
+---------------
+Main --> RentalManager (uses)
+Main --> VehicleManager (uses)
+RentalManager --> Rental (has many)
+RentalManager --> User (has)
+Rental --> Vehicle (depends)
+Rental --> FixedDurationRental (inherits)
+Rental --> RentToOwnRental (inherits)
+Rental --> MonthToMonthRental (inherits)
+UserManager --> User (has many)
