@@ -39,36 +39,41 @@ public class CarRentalSystem {
     // === File I/O ===
     static void loadData() {
         try {
-            BufferedReader br;
-
-            br = new BufferedReader(new FileReader("users.txt"));
+            
+            BufferedReader br = new BufferedReader(new FileReader("users.txt"));// Open the "users.txt" file for reading
             String line;
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 3);
-                userIds.add(Integer.parseInt(parts[0]));
-                userNames.add(parts[1]);
-                userPhones.add(parts[2]);
-                userCounter = Math.max(userCounter, Integer.parseInt(parts[0]) + 1);
+                String[] parts = line.split(",", 3);//split
+                int id = Integer.parseInt(parts[0]);// Parse 
+                String name = parts[1];
+                String phone = parts[2];
+                users.add(new User(id, name, phone));// Create a new User object and add it to the users list
+                
+                userCounter = Math.max(userCounter, id + 1); // Update the userCounter to ensure unique IDs for new users
             }
-            br.close();
+            br.close();// Close the file after reading
 
             br = new BufferedReader(new FileReader("vehicles.txt"));
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",", 3);
-                vehicleIds.add(Integer.parseInt(parts[0]));
-                vehicleModels.add(parts[1]);
-                vehiclePlates.add(parts[2]);
-                vehicleCounter = Math.max(vehicleCounter, Integer.parseInt(parts[0]) + 1);
+                int id = Integer.parseInt(parts[0]);
+                String model = parts[1];
+                String plate = parts[2];
+                vehicles.add(new Vehicle(id, model, plate));
+                
+                vehicleCounter = Math.max(vehicleCounter, id + 1); // Update the vehicleCounter to ensure unique IDs for new vehicles
             }
-            br.close();
+            br.close();    
 
             br = new BufferedReader(new FileReader("rentals.txt"));
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",", 3);
-                rentalIds.add(Integer.parseInt(parts[0]));
-                rentalUserIds.add(Integer.parseInt(parts[1]));
-                rentalVehicleIds.add(Integer.parseInt(parts[2]));
-                rentalCounter = Math.max(rentalCounter, Integer.parseInt(parts[0]) + 1);
+                int id = Integer.parseInt(parts[0]);
+                int userId = Integer.parseInt(parts[1]);
+                int vehicleId = Integer.parseInt(parts[2]);
+                rentals.add(new Rentals(id, userId, vehicleId, "", "", true));
+                
+                rentalCounter = Math.max(rentalCounter, id + 1); // Update the rentalCounter to ensure unique IDs for new rentals
             }
             br.close();
 
