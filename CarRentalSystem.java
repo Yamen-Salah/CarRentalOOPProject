@@ -3,17 +3,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CarRentalSystem {
-    static ArrayList<Integer> rentalIds = new ArrayList<>();
-    static ArrayList<Integer> rentalUserIds = new ArrayList<>();
-    static ArrayList<Integer> rentalVehicleIds = new ArrayList<>();
 
-    static ArrayList<Integer> userIds = new ArrayList<>();
-    static ArrayList<String> userNames = new ArrayList<>();
-    static ArrayList<String> userPhones = new ArrayList<>();
+    static ArrayList<Rentals> rentals = new ArrayList<>();
 
-    static ArrayList<Integer> vehicleIds = new ArrayList<>();
-    static ArrayList<String> vehicleModels = new ArrayList<>();
-    static ArrayList<String> vehiclePlates = new ArrayList<>();
+
+    static ArrayList<User> users = new ArrayList<>();
+
+
+    static ArrayList<Vehicle> vehicles = new ArrayList<>();
+
 
     static Scanner scanner = new Scanner(System.in);
     static int rentalCounter = 1;
