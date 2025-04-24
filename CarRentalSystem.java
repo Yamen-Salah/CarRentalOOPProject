@@ -84,26 +84,21 @@ public class CarRentalSystem {
 
     static void saveData() {
         try {
-            PrintWriter pw;
-
-            pw = new PrintWriter(new FileWriter("users.txt"));
-            for (int i = 0; i < userIds.size(); i++) {
-                pw.println(userIds.get(i) + "," + userNames.get(i) + "," + userPhones.get(i));
+            PrintWriter pw = new PrintWriter(new FileWriter("users.txt"));
+            for (User u : users) {
+                pw.println(u.getId() + "," + u.getName() + "," + u.getPhone());
             }
             pw.close();
-
             pw = new PrintWriter(new FileWriter("vehicles.txt"));
-            for (int i = 0; i < vehicleIds.size(); i++) {
-                pw.println(vehicleIds.get(i) + "," + vehicleModels.get(i) + "," + vehiclePlates.get(i));
+            for (Vehicle v : vehicles) {
+                pw.println(v.getId() + "," + v.getModel() + "," + v.getPlateNumber());
             }
             pw.close();
-
             pw = new PrintWriter(new FileWriter("rentals.txt"));
-            for (int i = 0; i < rentalIds.size(); i++) {
-                pw.println(rentalIds.get(i) + "," + rentalUserIds.get(i) + "," + rentalVehicleIds.get(i));
+            for (Rentals r : rentals) {
+                pw.println(r.getId() + "," + r.getUserId() + "," + r.getVehicleId() + "," + r.getStartDate() + "," + r.getEndDate() + "," + r.isActive());
             }
             pw.close();
-
             System.out.println("Data saved successfully.");
         } catch (IOException e) {
             System.out.println("Error saving files.");
