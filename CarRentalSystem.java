@@ -120,115 +120,147 @@ public class CarRentalSystem {
 
     static void viewAllRentals() {
         System.out.println("\n--- All Rentals ---");
-        for (int i = 0; i < rentalIds.size(); i++) {
-            System.out.println("Rental ID: " + rentalIds.get(i));
+        for (Rentals rental : rentals) {
+            System.out.println("Rental ID: " + rental.getId());
         }
     }
+    
 
     static void searchRentalById() {
         System.out.print("\nEnter Rental ID to search: ");
         int id = Integer.parseInt(scanner.nextLine());
-        int index = rentalIds.indexOf(id);
-        if (index == -1) {
-            System.out.println("Rental not found.");
-            return;
+    
+        for (int i = 0; i < rentals.size(); i++) {
+            if (rentals.get(i).getId() == id) {
+                displayRentalDetails(i);
+                return;
+            }
         }
-        displayRentalDetails(index);
+        System.out.println("Rental not found.");
     }
+    
+    
 
     static void displayRentalDetails(int index) {
-        int userId = rentalUserIds.get(index);
-        int vehicleId = rentalVehicleIds.get(index);
-
+        Rentals rental = rentals.get(index);
+        int userId = rental.getUserId();
+        int vehicleId = rental.getVehicleId();
+    
         System.out.println("\n--- Rental Details ---");
-        System.out.println("Rental ID: " + rentalIds.get(index));
+        System.out.println("Rental ID: " + rental.getId());
+    
         System.out.println("User:");
-        int userIndex = userIds.indexOf(userId);
-        System.out.println("  Name: " + userNames.get(userIndex));
-        System.out.println("  Phone: " + userPhones.get(userIndex));
-
+        for (User user : users) {
+            if (user.getId() == userId) {
+                System.out.println("  Name: " + user.getName());
+                System.out.println("  Phone: " + user.getPhone());
+                break;
+            }
+        }
+    
         System.out.println("Vehicle:");
-        int vehicleIndex = vehicleIds.indexOf(vehicleId);
-        System.out.println("  Model: " + vehicleModels.get(vehicleIndex));
-        System.out.println("  Plate: " + vehiclePlates.get(vehicleIndex));
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getId() == vehicleId) {
+                System.out.println("  Model: " + vehicle.getModel());
+                System.out.println("  Plate: " + vehicle.getPlateNumber());
+                break;
+            }
+        }
     }
 
     static void createRental() {
-        if (userIds.isEmpty() || vehicleIds.isEmpty()) {
+        if (users.isEmpty() || vehicles.isEmpty()) {
             System.out.println("You must create at least one user and vehicle before creating a rental.");
             return;
         }
-
+    
         System.out.println("\n--- Create Rental ---");
-
+    
         System.out.println("Select user:");
-        for (int i = 0; i < userIds.size(); i++) {
-            System.out.println((i + 1) + ". " + userNames.get(i));
+        for (int i = 0; i < users.size(); i++) {
+            System.out.println((i + 1) + ". " + users.get(i).getName());
         }
         int userIndex = Integer.parseInt(scanner.nextLine()) - 1;
-
+        User selectedUser = users.get(userIndex);
+    
         System.out.println("Select vehicle:");
-        for (int i = 0; i < vehicleIds.size(); i++) {
-            System.out.println((i + 1) + ". " + vehicleModels.get(i));
+        for (int i = 0; i < vehicles.size(); i++) {
+            System.out.println((i + 1) + ". " + vehicles.get(i).getModel());
         }
         int vehicleIndex = Integer.parseInt(scanner.nextLine()) - 1;
-
-        rentalIds.add(rentalCounter++);
-        rentalUserIds.add(userIds.get(userIndex));
-        rentalVehicleIds.add(vehicleIds.get(vehicleIndex));
+        Vehicle selectedVehicle = vehicles.get(vehicleIndex);
+    
+        System.out.print("Enter rental start date: ");
+        String startDate = scanner.nextLine();
+        System.out.print("Enter rental end date: ");
+        String endDate = scanner.nextLine();
+    
+        Rentals rental = new Rentals(rentalCounter++, selectedUser.getId(), selectedVehicle.getId(), startDate, endDate, true);
+        rentals.add(rental);
+    
         System.out.println("Rental created successfully.");
     }
-
     static void createUser() {
         System.out.print("\nEnter user name: ");
         String name = scanner.nextLine();
         System.out.print("Enter phone number: ");
         String phone = scanner.nextLine();
-
-        userIds.add(userCounter++);
-        userNames.add(name);
-        userPhones.add(phone);
-
+    
+        User newUser = new User(userCounter++, name, phone);
+        users.add(newUser);
+    
         System.out.println("User created.");
     }
-
+    
     static void createVehicle() {
         System.out.print("\nEnter vehicle model: ");
         String model = scanner.nextLine();
         System.out.print("Enter plate number: ");
         String plate = scanner.nextLine();
-
-        vehicleIds.add(vehicleCounter++);
-        vehicleModels.add(model);
-        vehiclePlates.add(plate);
-
+    
+        Vehicle newVehicle = new Vehicle(vehicleCounter++, model, plate);
+        vehicles.add(newVehicle);
+    
         System.out.println("Vehicle created.");
     }
+    
 
     static void editRental() {
         System.out.print("\nEnter Rental ID to edit: ");
         int id = Integer.parseInt(scanner.nextLine());
-        int index = rentalIds.indexOf(id);
+    
+        int index = -1;
+        for (int i = 0; i < rentals.size(); i++) {
+            if (rentals.get(i).getId() == id) {
+                index = i;
+                break;
+            }
+        }
+    
         if (index == -1) {
             System.out.println("Rental not found.");
             return;
         }
-
+    
         System.out.println("Edit user:");
-        for (int i = 0; i < userIds.size(); i++) {
-            System.out.println((i + 1) + ". " + userNames.get(i));
+        for (int i = 0; i < users.size(); i++) {
+            System.out.println((i + 1) + ". " + users.get(i).getName());
         }
         int userIndex = Integer.parseInt(scanner.nextLine()) - 1;
-
+        int newUserId = users.get(userIndex).getId();
+    
         System.out.println("Edit vehicle:");
-        for (int i = 0; i < vehicleIds.size(); i++) {
-            System.out.println((i + 1) + ". " + vehicleModels.get(i));
+        for (int i = 0; i < vehicles.size(); i++) {
+            System.out.println((i + 1) + ". " + vehicles.get(i).getModel());
         }
         int vehicleIndex = Integer.parseInt(scanner.nextLine()) - 1;
-
-        rentalUserIds.set(index, userIds.get(userIndex));
-        rentalVehicleIds.set(index, vehicleIds.get(vehicleIndex));
-
+        int newVehicleId = vehicles.get(vehicleIndex).getId();
+    
+        Rentals rental = rentals.get(index);
+        rental.setUserId(newUserId);
+        rental.setVehicleId(newVehicleId);
+    
         System.out.println("Rental updated.");
     }
+    
 }
