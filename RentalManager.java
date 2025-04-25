@@ -2,19 +2,23 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class rentalManager {
+public class RentalManager {
     private ArrayList<Rentals> rentals;
     private ArrayList<User> users;
     private ArrayList<Vehicle> vehicles;
     private Scanner scanner;
-
-    public void rentalManager(ArrayList<Rentals> rentals, ArrayList<User> users, ArrayList<Vehicle> vehicles, Scanner scanner) {
+    private int rentalCounter;
+    public void rentalManager(ArrayList<Rentals> rentals, ArrayList<User> users, ArrayList<Vehicle> vehicles, Scanner scanner, int rentalCounter) {
         this.rentals = rentals;
         this.users = users;
         this.vehicles = vehicles;
         this.scanner = new Scanner(System.in);
+        this.rentalCounter = rentalCounter;
     }
-
+    public int getRentalCounter() {
+        return rentalCounter;
+    }
+    
 
 
     public void viewAllRentals() {
