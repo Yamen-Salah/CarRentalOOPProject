@@ -1,4 +1,0 @@
-1,Toyota,Corolla,2020,ABC123,45.5
-2,Ford,Escape,2019,XYZ789,60.0
-3,Honda,Civic,2022,HON456,55.75
-4,Tesla,Model3,2021,TSL123,99.99
