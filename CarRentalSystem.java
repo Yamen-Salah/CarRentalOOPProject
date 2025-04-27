@@ -17,6 +17,7 @@ public class CarRentalSystem {
         loadData();
         RentalManager rentalManager = new RentalManager(rentals, users, vehicles, scanner, rentalCounter);
         UserManager userManager = new UserManager(users, scanner, userCounter);
+        VehicleManager vehicleManager = new VehicleManager(vehicles, scanner, vehicleCounter);
         while (true) {
             printMainMenu();
             int choice = Integer.parseInt(scanner.nextLine());
@@ -25,10 +26,12 @@ public class CarRentalSystem {
                 case 2: rentalManager.searchRentalById(); break;
                 case 3: rentalManager.createRental(); break;
                 case 4: userManager.createUser(); break;
-                case 5: createVehicle(); break;
+                case 5: vehicleManager.createVehicle(); break;
                 case 6: rentalManager.editRental(); break;
                 case 0: rentalCounter = rentalManager.getRentalCounter();
                         userCounter = userManager.getUserCounter();
+                        vehicleCounter = vehicleManager.getVehicleCounter();
+                        System.out.println("Saving data and exiting...");
                         saveData();
                         System.exit(0);
                 default: System.out.println("Invalid option.");
@@ -115,20 +118,5 @@ public class CarRentalSystem {
         System.out.println("6. Edit rental");
         System.out.println("0. Exit and Save");
         System.out.print("Choose an option: ");
-    }
-    
-    
-    static void createVehicle() {
-        System.out.print("\nEnter vehicle model: ");
-        String model = scanner.nextLine();
-        System.out.print("Enter plate number: ");
-        String plate = scanner.nextLine();
-    
-        Vehicle newVehicle = new Vehicle(vehicleCounter++, model, plate);
-        vehicles.add(newVehicle);
-    
-        System.out.println("Vehicle created.");
-    }
-    
-    
+    }    
 }
