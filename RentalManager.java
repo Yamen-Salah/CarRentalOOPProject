@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -51,10 +52,11 @@ public class RentalManager {
         int vehicleIndex = Integer.parseInt(scanner.nextLine()) - 1;
         Vehicle selectedVehicle = vehicles.get(vehicleIndex);
     
-        System.out.print("Enter rental start date: ");
-        String startDate = scanner.nextLine();
-        System.out.print("Enter rental end date: ");
-        String endDate = scanner.nextLine();
+        System.out.print("Enter rental start date (YYYY-MM-DD): ");
+        LocalDate startDate = LocalDate.parse(scanner.nextLine());
+        System.out.print("Enter rental end date (YYYY-MM-DD): ");
+        LocalDate endDate = LocalDate.parse(scanner.nextLine());
+
     
         Rentals rental = new Rentals(rentalCounter++, selectedUser.getId(), selectedVehicle.getId(), startDate, endDate, true);
         rentals.add(rental);

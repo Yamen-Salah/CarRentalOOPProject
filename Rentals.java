@@ -1,12 +1,13 @@
+import java.time.LocalDate;
 public class Rentals {
     private int id;
     private int userId;
     private int vehicleId;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private boolean isActive;
 
-    public Rentals(int id, int userId, int vehicleId, String startDate, String endDate, boolean isActive) {
+    public Rentals(int id, int userId, int vehicleId, LocalDate startDate, LocalDate endDate, boolean isActive) {
         this.id = id;
         this.userId = userId;
         this.vehicleId = vehicleId;
@@ -32,16 +33,16 @@ public class Rentals {
     public void setVehicleId(int vehicleId) {
         this.vehicleId = vehicleId;
     }
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
     public boolean isActive() {
@@ -49,5 +50,13 @@ public class Rentals {
     }
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public double calculateCost(Vehicle vehicle) {
+        long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
+        return days * vehicle.getPricePerDay();
+    }
+    public LocalDate getReturnDate() {
+        return endDate;
     }
 }
