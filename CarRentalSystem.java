@@ -1,4 +1,6 @@
 import java.io.*;
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -57,27 +59,36 @@ public class CarRentalSystem {
 
             br = new BufferedReader(new FileReader("vehicles.txt"));
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 3);
+                String[] parts = line.split(",", 6);
                 int id = Integer.parseInt(parts[0]);
-                String model = parts[1];
-                String plate = parts[2];
-                vehicles.add(new Vehicle(id, model, plate));
-                
-                vehicleCounter = Math.max(vehicleCounter, id + 1); // Update the vehicleCounter to ensure unique IDs for new vehicles
+                String make = parts[1];
+                String model = parts[2];
+                Year year = Year.of(Integer.parseInt(parts[3]));
+                String plate = parts[4];
+                double pricePerDay = Double.parseDouble(parts[5]);
+
+                vehicles.add(new Vehicle(id, make, model, year, plate, pricePerDay));
+
+                vehicleCounter = Math.max(vehicleCounter, id + 1);
             }
-            br.close();    
+            br.close();   // Close the file after reading 
 
             br = new BufferedReader(new FileReader("rentals.txt"));
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 3);
+                String[] parts = line.split(",", 6);
                 int id = Integer.parseInt(parts[0]);
                 int userId = Integer.parseInt(parts[1]);
                 int vehicleId = Integer.parseInt(parts[2]);
-                rentals.add(new Rentals(id, userId, vehicleId, "", "", true));
-                
-                rentalCounter = Math.max(rentalCounter, id + 1); // Update the rentalCounter to ensure unique IDs for new rentals
+                LocalDate startDate = LocalDate.parse(parts[3]);
+                LocalDate endDate = LocalDate.parse(parts[4]);
+                boolean isActive = Boolean.parseBoolean(parts[5]);
+
+                rentals.add(new Rentals(id, userId, vehicleId, startDate, endDate, isActive));
+
+                rentalCounter = Math.max(rentalCounter, id + 1);
             }
             br.close();
+
 
         } catch (IOException e) {
             System.out.println("Error reading files.");
@@ -93,9 +104,10 @@ public class CarRentalSystem {
             pw.close();
             pw = new PrintWriter(new FileWriter("vehicles.txt"));
             for (Vehicle v : vehicles) {
-                pw.println(v.getId() + "," + v.getModel() + "," + v.getPlateNumber());
+                pw.println(v.getId() + "," + v.getMake() + "," + v.getModel() + "," + v.getYear().getValue() + "," + v.getPlateNumber() + "," + v.getPricePerDay());
             }
             pw.close();
+
             pw = new PrintWriter(new FileWriter("rentals.txt"));
             for (Rentals r : rentals) {
                 pw.println(r.getId() + "," + r.getUserId() + "," + r.getVehicleId() + "," + r.getStartDate() + "," + r.getEndDate() + "," + r.isActive());

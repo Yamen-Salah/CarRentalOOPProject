@@ -1,3 +1,4 @@
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class VehicleManager {
@@ -24,13 +25,21 @@ public class VehicleManager {
 
     public void createVehicle() {
         System.out.println("\n--- Create Vehicle ---");
+        System.out.print("Enter vehicle make: ");
+        String make = scanner.nextLine();
         System.out.print("Enter vehicle model: ");
         String model = scanner.nextLine();
+        System.out.print("Enter vehicle year (YYYY): ");
+        int yearInput = Integer.parseInt(scanner.nextLine());
         System.out.print("Enter vehicle plate number: ");
         String plateNumber = scanner.nextLine();
+        System.out.print("Enter price per day: ");
+        double pricePerDay = Double.parseDouble(scanner.nextLine());
 
-        Vehicle vehicle = new Vehicle(vehicleCounter++, model, plateNumber);
+        Vehicle vehicle = new Vehicle(vehicleCounter++, make, model, Year.of(yearInput), plateNumber, pricePerDay);
         vehicles.add(vehicle);
+
         System.out.println("Vehicle created with ID: " + vehicle.getId());
     }
+
 }
