@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,7 +7,7 @@ public class RentalManager {
     private ArrayList<Vehicle> vehicles;
     private Scanner scanner;
     private int rentalCounter;
-    public void rentalManager(ArrayList<Rentals> rentals, ArrayList<User> users, ArrayList<Vehicle> vehicles, Scanner scanner, int rentalCounter) {
+    public RentalManager(ArrayList<Rentals> rentals, ArrayList<User> users, ArrayList<Vehicle> vehicles, Scanner scanner, int rentalCounter) {
         this.rentals = rentals;
         this.users = users;
         this.vehicles = vehicles;
