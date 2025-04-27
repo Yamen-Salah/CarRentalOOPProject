@@ -15,21 +15,26 @@ public class FixedDurationRental extends Rentals {
 
     @Override
     public double calculateCost(Vehicle vehicle) {
-        double cost = numberOfDays * vehicle.getPricePerDay();
+        double baseCost = numberOfDays * vehicle.getPricePerDay();
         if (insuranceIncluded) {
-            cost += 15 * numberOfDays; // example: $15/day insurance
+            baseCost += 15 * numberOfDays; // Example insurance fee per day
         }
         if (isEligibleForDiscount()) {
-            cost = applyDiscountIfEligible(cost);
+            baseCost = applyDiscountIfEligible(baseCost);
         }
-        return cost;
+        return baseCost;
+    }
+
+    @Override
+    public LocalDate getReturnDate() {
+        return getStartDate().plusDays(numberOfDays);
     }
 
     public boolean isEligibleForDiscount() {
-        return numberOfDays >= 7; // example: discount if renting for a week+
+        return numberOfDays >= 7; // Discount eligibility
     }
 
-    public double applyDiscountIfEligible(double cost) {
-        return cost * (1 - discountRate);
+    public double applyDiscountIfEligible(double baseCost) {
+        return baseCost * (1 - discountRate);
     }
 }
