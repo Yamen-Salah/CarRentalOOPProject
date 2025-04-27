@@ -1,16 +1,15 @@
 import java.time.LocalDate;
 
 // RentToOwnRental class extends the Rentals class to represent a rent-to-own rental
-public class RentToOwnRental extends Rentals {
+public class RentToBuyRental extends MonthlyAutoRenewalRental {
     private double purchasePrice; // The total purchase price of the vehicle
     private double monthlyInstallment; // The monthly installment amount
     private int monthsUntilOwnership; // The number of months remaining until ownership
     private boolean hasPurchased; // Flag indicating if the vehicle has been fully purchased
 
     // Constructor to initialize all fields, including those from the parent Rentals class
-    public RentToOwnRental(int id, int userId, int vehicleId, LocalDate startDate, LocalDate endDate, boolean isActive,
-                            double purchasePrice, double monthlyInstallment, int monthsUntilOwnership, boolean hasPurchased) {
-        super(id, userId, vehicleId, startDate, endDate, isActive); // Call the parent class constructor
+    public RentToBuyRental(int id, int userId, int vehicleId, LocalDate startDate, LocalDate endDate, boolean isActive,int monthsRented, boolean autoRenewing, LocalDate billingEnd, double purchasePrice, double monthlyInstallment, int monthsUntilOwnership, boolean hasPurchased) {
+        super(id, userId, vehicleId, startDate, endDate, isActive, monthsRented, autoRenewing, billingEnd);
         this.purchasePrice = purchasePrice; // Set the purchase price
         this.monthlyInstallment = monthlyInstallment; // Set the monthly installment
         this.monthsUntilOwnership = monthsUntilOwnership; // Set the months until ownership
