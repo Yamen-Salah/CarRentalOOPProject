@@ -31,7 +31,7 @@ public class FixedDurationRental extends Rentals {
     }
 
     public boolean isEligibleForDiscount() {
-        return numberOfDays >= 7; // Discount eligibility
+        return numberOfDays >= 10; // Discount eligibility
     }
 
     public double applyDiscountIfEligible(double baseCost) {
