@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CarRentalSystem {
+class CarRentalSystem {
 
     static ArrayList<Rentals> rentals = new ArrayList<>();
     static ArrayList<User> users = new ArrayList<>();

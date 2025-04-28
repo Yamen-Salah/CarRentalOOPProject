@@ -2,26 +2,26 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class RentalManager {
+class RentalManager {
     private ArrayList<Rentals> rentals;
     private ArrayList<User> users;
     private ArrayList<Vehicle> vehicles;
     private Scanner scanner;
     private int rentalCounter;
-    public RentalManager(ArrayList<Rentals> rentals, ArrayList<User> users, ArrayList<Vehicle> vehicles, Scanner scanner, int rentalCounter) {
+    RentalManager(ArrayList<Rentals> rentals, ArrayList<User> users, ArrayList<Vehicle> vehicles, Scanner scanner, int rentalCounter) {
         this.rentals = rentals;
         this.users = users;
         this.vehicles = vehicles;
         this.scanner = new Scanner(System.in);
         this.rentalCounter = rentalCounter;
     }
-    public int getRentalCounter() {
+    int getRentalCounter() {
         return rentalCounter;
     }
     
 
 
-    public void viewAllRentals() {
+    void viewAllRentals() {
         System.out.println("\n--- All Rentals ---");
         for (Rentals rental : rentals) {
             System.out.println("Rental ID: " + rental.getId());
@@ -30,7 +30,7 @@ public class RentalManager {
 
 
 
-    public void createRental() {
+    void createRental() {
         if (users.isEmpty() || vehicles.isEmpty()) {
             System.out.println("You must create at least one user and vehicle before creating a rental.");
             return;
@@ -121,7 +121,7 @@ public class RentalManager {
     
 
 
-    public void displayRentalDetails(int index) {
+    void displayRentalDetails(int index) {
         Rentals rental = rentals.get(index);
         int userId = rental.getUserId();
         int vehicleId = rental.getVehicleId();
@@ -172,7 +172,7 @@ public class RentalManager {
     }
     
 
-    public void editRental() {
+    void editRental() {
         System.out.print("\nEnter Rental ID to edit: ");
         int id = Integer.parseInt(scanner.nextLine());
     
@@ -211,7 +211,7 @@ public class RentalManager {
     }
 
 
-    public void searchRentalById() {
+    void searchRentalById() {
         System.out.print("\nEnter Rental ID to search: ");
         int id = Integer.parseInt(scanner.nextLine());
     
@@ -224,7 +224,7 @@ public class RentalManager {
         System.out.println("Rental not found.");
     }
 
-    public ArrayList<Rentals> getAllRentals() {
+    ArrayList<Rentals> getAllRentals() {
     return rentals;
 }
 

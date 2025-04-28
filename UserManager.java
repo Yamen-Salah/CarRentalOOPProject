@@ -1,25 +1,25 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-public class UserManager {
+class UserManager {
     private ArrayList<User> users;
     private Scanner scanner;
     private int userCounter;
 
-    public UserManager(ArrayList<User> users, Scanner scanner, int userCounter) {
+    UserManager(ArrayList<User> users, Scanner scanner, int userCounter) {
         this.users = users;
         this.scanner = scanner;
         this.userCounter = userCounter;
     }
-    public int getUserCounter() {
+    int getUserCounter() {
         return userCounter;
     }
-    public void viewAllUsers() {
+    void viewAllUsers() {
         System.out.println("\n--- All Users ---");
         for (User user : users) {
             System.out.println("User ID: " + user.getId() + ", Name: " + user.getName() + ", Phone: " + user.getPhone());
         }
     }
-    public void createUser() {
+    void createUser() {
         System.out.println("\n--- Create User ---");
         System.out.print("Enter user name: ");
         String name = scanner.nextLine();
@@ -31,7 +31,7 @@ public class UserManager {
         System.out.println("User created with ID: " + user.getId());
     }   
 
-    public ArrayList<User> getAllUsers() {
+    ArrayList<User> getAllUsers() {
         return users;
     }
     

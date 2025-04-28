@@ -1,6 +1,6 @@
 import java.time.Year;
 
-public class Vehicle {
+class Vehicle {
     private int id;
     private String make;
     private String model;
@@ -8,7 +8,7 @@ public class Vehicle {
     private String plateNumber;
     private double pricePerDay;
 
-    public Vehicle(int id, String make, String model, Year year, String plateNumber, double pricePerDay) {  
+    Vehicle(int id, String make, String model, Year year, String plateNumber, double pricePerDay) {  
         this.id = id;
         this.make = make;
         this.model = model;
@@ -17,43 +17,43 @@ public class Vehicle {
         this.pricePerDay = pricePerDay;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
-    public String getMake() {
+    String getMake() {
         return make;
     }
-    public void setMake(String make) {
+    void setMake(String make) {
         this.make = make;
     }
-    public String getModel() {
+    String getModel() {
         return model;
     }
-    public void setModel(String model) {
+    void setModel(String model) {
         this.model = model;
     }
-    public Year getYear() {
+    Year getYear() {
         return year;
     }
-    public void setYear(Year year) {
+    void setYear(Year year) {
         this.year = year;
     }
-    public String getPlateNumber() {
+    String getPlateNumber() {
         return plateNumber;
     }
-    public void setPlateNumber(String plateNumber) {
+    void setPlateNumber(String plateNumber) {
         this.plateNumber = plateNumber;
     }
-    public double getPricePerDay() {
+    double getPricePerDay() {
         return pricePerDay;
     }
-    public void setPricePerDay(double pricePerDay) {
+    void setPricePerDay(double pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
-    public void displayInfo()
+    void displayInfo()
     {
         System.out.println(make + " " + model + " (" + year + "), Plate: " + plateNumber + ", Price/Day: $" + pricePerDay);
     }

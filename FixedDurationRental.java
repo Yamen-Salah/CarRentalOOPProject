@@ -1,11 +1,11 @@
 import java.time.LocalDate;
 
-public class FixedDurationRental extends Rentals {
+class FixedDurationRental extends Rentals {
     private int numberOfDays;
     private boolean insuranceIncluded;
     private double discountRate;
 
-    public FixedDurationRental(int id, int userId, int vehicleId, LocalDate startDate, LocalDate endDate, boolean isActive,
+    FixedDurationRental(int id, int userId, int vehicleId, LocalDate startDate, LocalDate endDate, boolean isActive,
                                 int numberOfDays, boolean insuranceIncluded, double discountRate) {
         super(id, userId, vehicleId, startDate, endDate, isActive);
         this.numberOfDays = numberOfDays;
@@ -13,21 +13,21 @@ public class FixedDurationRental extends Rentals {
         this.discountRate = discountRate;
     }
 
-    public int getNumberOfDays() {
+    int getNumberOfDays() {
         return numberOfDays;
     }
     
-    public boolean isInsuranceIncluded() {
+    boolean isInsuranceIncluded() {
         return insuranceIncluded;
     }
     
-    public double getDiscountRate() {
+    double getDiscountRate() {
         return discountRate;
     }
     
 
     @Override
-    public double calculateCost(Vehicle vehicle) {
+    double calculateCost(Vehicle vehicle) {
         double baseCost = numberOfDays * vehicle.getPricePerDay();
         if (insuranceIncluded) {
             baseCost += 15 * numberOfDays; // Example insurance fee per day
@@ -39,15 +39,15 @@ public class FixedDurationRental extends Rentals {
     }
 
     @Override
-    public LocalDate getReturnDate() {
+    LocalDate getReturnDate() {
         return getStartDate().plusDays(numberOfDays);
     }
 
-    public boolean isEligibleForDiscount() {
+    boolean isEligibleForDiscount() {
         return numberOfDays >= 10; // Discount eligibility
     }
 
-    public double applyDiscountIfEligible(double baseCost) {
+    double applyDiscountIfEligible(double baseCost) {
         return baseCost * (1 - discountRate);
     }
 }

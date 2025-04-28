@@ -1,29 +1,29 @@
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Scanner;
-public class VehicleManager {
+class VehicleManager {
     private ArrayList<Vehicle> vehicles;
     private Scanner scanner;
     private int vehicleCounter;
 
-    public VehicleManager(ArrayList<Vehicle> vehicles, Scanner scanner, int vehicleCounter) {
+    VehicleManager(ArrayList<Vehicle> vehicles, Scanner scanner, int vehicleCounter) {
         this.vehicles = vehicles;
         this.scanner = scanner;
         this.vehicleCounter = vehicleCounter;
     }
 
-    public int getVehicleCounter() {
+    int getVehicleCounter() {
         return vehicleCounter;
     }
 
-    public void viewAllVehicles() {
+    void viewAllVehicles() {
         System.out.println("\n--- All Vehicles ---");
         for (Vehicle vehicle : vehicles) {
             System.out.println("Vehicle ID: " + vehicle.getId() + ", Model: " + vehicle.getModel() + ", Plate: " + vehicle.getPlateNumber());
         }
     }
 
-    public void createVehicle() {
+    void createVehicle() {
         System.out.println("\n--- Create Vehicle ---");
         System.out.print("Enter vehicle make: ");
         String make = scanner.nextLine();
@@ -42,7 +42,7 @@ public class VehicleManager {
         System.out.println("Vehicle created with ID: " + vehicle.getId());
     }
 
-    public ArrayList<Vehicle> getAllVehicles() {
+    ArrayList<Vehicle> getAllVehicles() {
         return vehicles;
     }    
 
