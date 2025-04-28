@@ -225,7 +225,7 @@ public class RentalManager {
     }
 
     public ArrayList<Rentals> getAllRentals() {
-        return rentals;
-    }
-    
+    return rentals;
+}
+
 }

@@ -44,7 +44,6 @@ public class VehicleManager {
 
     public ArrayList<Vehicle> getAllVehicles() {
         return vehicles;
-    }
-    
+    }    
 
 }
