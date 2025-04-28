@@ -128,7 +128,7 @@ public class RentalManager {
     
         System.out.println("\n--- Rental Details ---");
         System.out.println("Rental ID: " + rental.getId());
-    
+        
         System.out.println("User:");
         for (User user : users) {
             if (user.getId() == userId) {
@@ -141,12 +141,36 @@ public class RentalManager {
         System.out.println("Vehicle:");
         for (Vehicle vehicle : vehicles) {
             if (vehicle.getId() == vehicleId) {
-                System.out.println("  Model: " + vehicle.getModel());
-                System.out.println("  Plate: " + vehicle.getPlateNumber());
+                vehicle.displayInfo();
                 break;
             }
         }
+    
+        System.out.println("Start Date: " + rental.getStartDate());
+        System.out.println("End Date: " + rental.getEndDate());
+        System.out.println("Is Active: " + rental.isActive());
+    
+        if (rental instanceof FixedDurationRental) {
+            FixedDurationRental fixed = (FixedDurationRental) rental;
+            System.out.println("Rental Type: Fixed Duration");
+            System.out.println("  Number of Days: " + fixed.getNumberOfDays());
+            System.out.println("  Insurance Included: " + fixed.isInsuranceIncluded());
+            System.out.println("  Discount Rate: " + fixed.getDiscountRate());
+        } else if (rental instanceof RentToBuyRental) {
+            RentToBuyRental rentToBuy = (RentToBuyRental) rental;
+            System.out.println("Rental Type: Rent-To-Buy");
+            System.out.println("  Months Until Ownership: " + rentToBuy.getMonthsUntilOwnership());
+            System.out.println("  Monthly Installment: " + rentToBuy.getMonthlyInstallment());
+            System.out.println("  Has Purchased: " + rentToBuy.hasPurchased());
+        } else if (rental instanceof MonthlyAutoRenewalRental) {
+            MonthlyAutoRenewalRental monthly = (MonthlyAutoRenewalRental) rental;
+            System.out.println("Rental Type: Monthly Auto-Renewal");
+            System.out.println("  Months Rented: " + monthly.getMonthsRented());
+            System.out.println("  Auto-Renewing: " + monthly.isAutoRenewing());
+            System.out.println("  Billing End Date: " + monthly.getBillingEnd());
+        }
     }
+    
 
     public void editRental() {
         System.out.print("\nEnter Rental ID to edit: ");
