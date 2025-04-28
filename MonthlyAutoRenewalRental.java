@@ -15,6 +15,19 @@ public class MonthlyAutoRenewalRental extends Rentals {
         this.billingEnd = billingEnd; // Set the billing end date
     }
 
+    public int getMonthsRented() {
+        return monthsRented;
+    }
+    
+    public boolean isAutoRenewing() {
+        return autoRenewing;
+    }
+    
+    public LocalDate getBillingEnd() {
+        return billingEnd;
+    }
+    
+
     // Override the calculateCost method to calculate the total cost based on months rented
     @Override
     public double calculateCost(Vehicle vehicle) {

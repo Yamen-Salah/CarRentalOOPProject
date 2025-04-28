@@ -16,6 +16,22 @@ public class RentToBuyRental extends MonthlyAutoRenewalRental {
         this.hasPurchased = hasPurchased; // Set the purchase status
     }
 
+    public double getPurchasePrice() {
+        return purchasePrice;
+    }
+    
+    public double getMonthlyInstallment() {
+        return monthlyInstallment;
+    }
+    
+    public int getMonthsUntilOwnership() {
+        return monthsUntilOwnership;
+    }
+    
+    public boolean hasPurchased() {
+        return hasPurchased;
+    }
+    
     // Override the calculateCost method to calculate the total cost based on monthly installments
     @Override
     public double calculateCost(Vehicle vehicle) {

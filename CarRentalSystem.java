@@ -74,22 +74,44 @@ public class CarRentalSystem {
             br.close();   // Close the file after reading 
 
             br = new BufferedReader(new FileReader("rentals.txt"));
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 6);
-                int id = Integer.parseInt(parts[0]);
-                int userId = Integer.parseInt(parts[1]);
-                int vehicleId = Integer.parseInt(parts[2]);
-                LocalDate startDate = LocalDate.parse(parts[3]);
-                LocalDate endDate = LocalDate.parse(parts[4]);
-                boolean isActive = Boolean.parseBoolean(parts[5]);
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(",");
 
-                rentals.add(new Rentals(id, userId, vehicleId, startDate, endDate, isActive));
+            String type = parts[0];
+            int id = Integer.parseInt(parts[1]);
+            int userId = Integer.parseInt(parts[2]);
+            int vehicleId = Integer.parseInt(parts[3]);
+            LocalDate startDate = LocalDate.parse(parts[4]);
+            LocalDate endDate = LocalDate.parse(parts[5]);
+            boolean isActive = Boolean.parseBoolean(parts[6]);
 
-                rentalCounter = Math.max(rentalCounter, id + 1);
+            if (type.equals("Fixed")) {
+                int numberOfDays = Integer.parseInt(parts[7]);
+                boolean insuranceIncluded = Boolean.parseBoolean(parts[8]);
+                double discountRate = Double.parseDouble(parts[9]);
+                rentals.add(new FixedDurationRental(id, userId, vehicleId, startDate, endDate, isActive, numberOfDays, insuranceIncluded, discountRate));
+            } else if (type.equals("Monthly")) {
+                int monthsRented = Integer.parseInt(parts[7]);
+                boolean autoRenewing = Boolean.parseBoolean(parts[8]);
+                LocalDate billingEnd = LocalDate.parse(parts[9]);
+                rentals.add(new MonthlyAutoRenewalRental(id, userId, vehicleId, startDate, endDate, isActive, monthsRented, autoRenewing, billingEnd));
+            } else if (type.equals("RentToBuy")) {
+                int monthsRented = Integer.parseInt(parts[7]);
+                boolean autoRenewing = Boolean.parseBoolean(parts[8]);
+                LocalDate billingEnd = LocalDate.parse(parts[9]);
+                double purchasePrice = Double.parseDouble(parts[10]);
+                double monthlyInstallment = Double.parseDouble(parts[11]);
+                int monthsUntilOwnership = Integer.parseInt(parts[12]);
+                boolean hasPurchased = Boolean.parseBoolean(parts[13]);
+                rentals.add(new RentToBuyRental(id, userId, vehicleId, startDate, endDate, isActive,
+                        monthsRented, autoRenewing, billingEnd, purchasePrice, monthlyInstallment, monthsUntilOwnership, hasPurchased));
             }
-            br.close();
-
-
+        }
+        br.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Files not found. Starting with empty data.");
+        } catch (NumberFormatException e) {
+            System.out.println("Error parsing data from files.");
         } catch (IOException e) {
             System.out.println("Error reading files.");
         }
@@ -110,9 +132,22 @@ public class CarRentalSystem {
 
             pw = new PrintWriter(new FileWriter("rentals.txt"));
             for (Rentals r : rentals) {
-                pw.println(r.getId() + "," + r.getUserId() + "," + r.getVehicleId() + "," + r.getStartDate() + "," + r.getEndDate() + "," + r.isActive());
+                if (r instanceof FixedDurationRental) {
+                    FixedDurationRental f = (FixedDurationRental) r;
+                    pw.println("Fixed," + f.getId() + "," + f.getUserId() + "," + f.getVehicleId() + "," + f.getStartDate() + "," + f.getEndDate() + "," + f.isActive()
+                            + "," + f.getNumberOfDays() + "," + f.isInsuranceIncluded()+ "," + f.getDiscountRate());
+                } else if (r instanceof RentToBuyRental) {
+                    RentToBuyRental b = (RentToBuyRental) r;
+                    pw.println("RentToBuy," + b.getId() + "," + b.getUserId() + "," + b.getVehicleId() + "," + b.getStartDate() + "," + b.getEndDate() + "," + b.isActive()
+                            + "," + b.getMonthsRented() + "," + b.isAutoRenewing() + "," + b.getBillingEnd() + "," + b.getPurchasePrice() + "," + b.getMonthlyInstallment() + "," + b.getMonthsUntilOwnership() + "," + b.hasPurchased());
+                } else if (r instanceof MonthlyAutoRenewalRental) {
+                    MonthlyAutoRenewalRental m = (MonthlyAutoRenewalRental) r;
+                    pw.println("Monthly," + m.getId() + "," + m.getUserId() + "," + m.getVehicleId() + "," + m.getStartDate() + "," + m.getEndDate() + "," + m.isActive()
+                            + "," + m.getMonthsRented() + "," + m.isAutoRenewing() + "," + m.getBillingEnd());
+                }
             }
             pw.close();
+
             System.out.println("Data saved successfully.");
         } catch (IOException e) {
             System.out.println("Error saving files.");

@@ -13,6 +13,19 @@ public class FixedDurationRental extends Rentals {
         this.discountRate = discountRate;
     }
 
+    public int getNumberOfDays() {
+        return numberOfDays;
+    }
+    
+    public boolean isInsuranceIncluded() {
+        return insuranceIncluded;
+    }
+    
+    public double getDiscountRate() {
+        return discountRate;
+    }
+    
+
     @Override
     public double calculateCost(Vehicle vehicle) {
         double baseCost = numberOfDays * vehicle.getPricePerDay();
