@@ -54,15 +54,71 @@ public class RentalManager {
     
         System.out.print("Enter rental start date (YYYY-MM-DD): ");
         LocalDate startDate = LocalDate.parse(scanner.nextLine());
+    
         System.out.print("Enter rental end date (YYYY-MM-DD): ");
         LocalDate endDate = LocalDate.parse(scanner.nextLine());
-
     
-        Rentals rental = new Rentals(rentalCounter++, selectedUser.getId(), selectedVehicle.getId(), startDate, endDate, true);
+        System.out.println("\nChoose Rental Type:");
+        System.out.println("1. Fixed Duration Rental");
+        System.out.println("2. Monthly Auto-Renewal Rental");
+        System.out.println("3. Rent-To-Buy Rental");
+        int rentalTypeChoice = Integer.parseInt(scanner.nextLine());
+    
+        Rentals rental = null;
+    
+        switch (rentalTypeChoice) {
+            case 1:
+                System.out.print("Enter number of days: ");
+                int numberOfDays = Integer.parseInt(scanner.nextLine());
+                System.out.print("Include insurance? (true/false): ");
+                boolean insuranceIncluded = Boolean.parseBoolean(scanner.nextLine());
+                System.out.print("Enter discount rate (e.g., 0.10 for 10%): ");
+                double discountRate = Double.parseDouble(scanner.nextLine());
+    
+                rental = new FixedDurationRental(rentalCounter++, selectedUser.getId(), selectedVehicle.getId(),
+                        startDate, endDate, true, numberOfDays, insuranceIncluded, discountRate);
+                break;
+    
+            case 2:
+                System.out.print("Enter months rented: ");
+                int monthsRented = Integer.parseInt(scanner.nextLine());
+                System.out.print("Is auto-renewing? (true/false): ");
+                boolean autoRenewing = Boolean.parseBoolean(scanner.nextLine());
+                System.out.print("Enter billing end date (YYYY-MM-DD): ");
+                LocalDate billingEnd = LocalDate.parse(scanner.nextLine());
+    
+                rental = new MonthlyAutoRenewalRental(rentalCounter++, selectedUser.getId(), selectedVehicle.getId(),
+                        startDate, endDate, true, monthsRented, autoRenewing, billingEnd);
+                break;
+    
+            case 3:
+                System.out.print("Enter months rented: ");
+                int months = Integer.parseInt(scanner.nextLine());
+                System.out.print("Is auto-renewing? (true/false): ");
+                boolean autoRenew = Boolean.parseBoolean(scanner.nextLine());
+                System.out.print("Enter billing end date (YYYY-MM-DD): ");
+                LocalDate billEnd = LocalDate.parse(scanner.nextLine());
+                System.out.print("Enter purchase price: ");
+                double purchasePrice = Double.parseDouble(scanner.nextLine());
+                System.out.print("Enter monthly installment amount: ");
+                double monthlyInstallment = Double.parseDouble(scanner.nextLine());
+                System.out.print("Enter months until ownership: ");
+                int monthsUntilOwnership = Integer.parseInt(scanner.nextLine());
+    
+                rental = new RentToBuyRental(rentalCounter++, selectedUser.getId(), selectedVehicle.getId(),
+                        startDate, endDate, true, months, autoRenew, billEnd,
+                        purchasePrice, monthlyInstallment, monthsUntilOwnership, false);
+                break;
+    
+            default:
+                System.out.println("Invalid rental type choice.");
+                return;
+        }
+    
         rentals.add(rental);
-    
         System.out.println("Rental created successfully.");
     }
+    
 
 
     public void displayRentalDetails(int index) {
