@@ -30,4 +30,9 @@ public class UserManager {
         users.add(user);
         System.out.println("User created with ID: " + user.getId());
     }   
+
+    public ArrayList<User> getAllUsers() {
+        return users;
+    }
+    
 }

@@ -223,4 +223,9 @@ public class RentalManager {
         }
         System.out.println("Rental not found.");
     }
+
+    public ArrayList<Rentals> getAllRentals() {
+        return rentals;
+    }
+    
 }

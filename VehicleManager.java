@@ -42,4 +42,9 @@ public class VehicleManager {
         System.out.println("Vehicle created with ID: " + vehicle.getId());
     }
 
+    public ArrayList<Vehicle> getAllVehicles() {
+        return vehicles;
+    }
+    
+
 }
