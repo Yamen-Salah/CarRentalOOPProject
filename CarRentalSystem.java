@@ -22,25 +22,58 @@ class CarRentalSystem {
 
         while (true) {
             printMainMenu();
-            int choice = Integer.parseInt(scanner.nextLine());
-            switch (choice) {
-                case 1: viewAllRentals(rentalManager, userManager, vehicleManager); break;
-                case 2: searchRentalById(rentalManager, userManager, vehicleManager); break;
-                case 3: rentalManager.createRental(); break;
-                case 4: userManager.createUser(); break;
-                case 5: vehicleManager.createVehicle(); break;
-                case 6: rentalManager.editRental(); break;
-                case 0:
-                    rentalCounter = rentalManager.getRentalCounter();
-                    userCounter = userManager.getUserCounter();
-                    vehicleCounter = vehicleManager.getVehicleCounter();
-                    System.out.println("Saving data and exiting...");
-                    saveData();
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid option.");
+            try {
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                    case 1: viewAllRentals(rentalManager, userManager, vehicleManager); break;
+                    case 2: searchRentalById(rentalManager, userManager, vehicleManager); break;
+                    case 3:
+                        try {
+                            rentalManager.createRental();
+                            System.out.println("Rental created successfully.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                        break;
+                    case 4:
+                        try {
+                            userManager.createUser();
+                            System.out.println("User created successfully.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                        break;
+                    case 5:
+                        try {
+                            vehicleManager.createVehicle();
+                            System.out.println("Vehicle created successfully.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                        break;
+                    case 6:
+                        try {
+                            rentalManager.editRental();
+                            System.out.println("Rental updated successfully.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                        break;
+                    case 0:
+                        rentalCounter = rentalManager.getRentalCounter();
+                        userCounter = userManager.getUserCounter();
+                        vehicleCounter = vehicleManager.getVehicleCounter();
+                        System.out.println("Saving data and exiting...");
+                        saveData();
+                        System.exit(0);
+                    default:
+                        System.out.println("Invalid option.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
             }
         }
+        
     }
 
     static void printMainMenu() {
@@ -136,69 +169,82 @@ class CarRentalSystem {
             BufferedReader br = new BufferedReader(new FileReader("users.txt"));
             String line;
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 3);
-                int id = Integer.parseInt(parts[0]);
-                String name = parts[1];
-                String phone = parts[2];
-                users.add(new User(id, name, phone));
-                userCounter = Math.max(userCounter, id + 1);
+                try {
+                    String[] parts = line.split(",", 3);
+                    int id = Integer.parseInt(parts[0]);
+                    String name = parts[1];
+                    String phone = parts[2];
+                    users.add(new User(id, name, phone));
+                    userCounter = Math.max(userCounter, id + 1);
+                } catch (Exception e) {
+                    System.out.println("Invalid user record: " + line);
+                }
             }
             br.close();
-
+    
             br = new BufferedReader(new FileReader("vehicles.txt"));
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",", 6);
-                int id = Integer.parseInt(parts[0]);
-                String make = parts[1];
-                String model = parts[2];
-                int year = Integer.parseInt(parts[3]);
-                String plate = parts[4];
-                double price = Double.parseDouble(parts[5]);
-                vehicles.add(new Vehicle(id, make, model, java.time.Year.of(year), plate, price));
-                vehicleCounter = Math.max(vehicleCounter, id + 1);
+                try {
+                    String[] parts = line.split(",", 6);
+                    int id = Integer.parseInt(parts[0]);
+                    String make = parts[1];
+                    String model = parts[2];
+                    int year = Integer.parseInt(parts[3]);
+                    String plate = parts[4];
+                    double price = Double.parseDouble(parts[5]);
+                    vehicles.add(new Vehicle(id, make, model, java.time.Year.of(year), plate, price));
+                    vehicleCounter = Math.max(vehicleCounter, id + 1);
+                } catch (Exception e) {
+                    System.out.println("Invalid vehicle record: " + line);
+                }
             }
             br.close();
-
+    
             br = new BufferedReader(new FileReader("rentals.txt"));
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-
-                String type = parts[0];
-                int id = Integer.parseInt(parts[1]);
-                int userId = Integer.parseInt(parts[2]);
-                int vehicleId = Integer.parseInt(parts[3]);
-                java.time.LocalDate startDate = java.time.LocalDate.parse(parts[4]);
-                java.time.LocalDate endDate = java.time.LocalDate.parse(parts[5]);
-                boolean isActive = Boolean.parseBoolean(parts[6]);
-
-                if (type.equals("Fixed")) {
-                    int days = Integer.parseInt(parts[7]);
-                    boolean insurance = Boolean.parseBoolean(parts[8]);
-                    double discount = Double.parseDouble(parts[9]);
-                    rentals.add(new FixedDurationRental(id, userId, vehicleId, startDate, endDate, isActive, days, insurance, discount));
-                } else if (type.equals("Monthly")) {
-                    int months = Integer.parseInt(parts[7]);
-                    boolean autoRenew = Boolean.parseBoolean(parts[8]);
-                    java.time.LocalDate billingEnd = java.time.LocalDate.parse(parts[9]);
-                    rentals.add(new MonthlyAutoRenewalRental(id, userId, vehicleId, startDate, endDate, isActive, months, autoRenew, billingEnd));
-                } else if (type.equals("RentToBuy")) {
-                    int months = Integer.parseInt(parts[7]);
-                    boolean autoRenew = Boolean.parseBoolean(parts[8]);
-                    java.time.LocalDate billingEnd = java.time.LocalDate.parse(parts[9]);
-                    double purchasePrice = Double.parseDouble(parts[10]);
-                    double monthlyInstallment = Double.parseDouble(parts[11]);
-                    int monthsUntilOwnership = Integer.parseInt(parts[12]);
-                    boolean hasPurchased = Boolean.parseBoolean(parts[13]);
-                    rentals.add(new RentToBuyRental(id, userId, vehicleId, startDate, endDate, isActive, months, autoRenew, billingEnd, purchasePrice, monthlyInstallment, monthsUntilOwnership, hasPurchased));
+                try {
+                    String[] parts = line.split(",");
+    
+                    String type = parts[0];
+                    int id = Integer.parseInt(parts[1]);
+                    int userId = Integer.parseInt(parts[2]);
+                    int vehicleId = Integer.parseInt(parts[3]);
+                    java.time.LocalDate startDate = java.time.LocalDate.parse(parts[4]);
+                    java.time.LocalDate endDate = java.time.LocalDate.parse(parts[5]);
+                    boolean isActive = Boolean.parseBoolean(parts[6]);
+    
+                    if (type.equals("Fixed")) {
+                        int days = Integer.parseInt(parts[7]);
+                        boolean insurance = Boolean.parseBoolean(parts[8]);
+                        double discount = Double.parseDouble(parts[9]);
+                        rentals.add(new FixedDurationRental(id, userId, vehicleId, startDate, endDate, isActive, days, insurance, discount));
+                    } else if (type.equals("Monthly")) {
+                        int months = Integer.parseInt(parts[7]);
+                        boolean autoRenew = Boolean.parseBoolean(parts[8]);
+                        java.time.LocalDate billingEnd = java.time.LocalDate.parse(parts[9]);
+                        rentals.add(new MonthlyAutoRenewalRental(id, userId, vehicleId, startDate, endDate, isActive, months, autoRenew, billingEnd));
+                    } else if (type.equals("RentToBuy")) {
+                        int months = Integer.parseInt(parts[7]);
+                        boolean autoRenew = Boolean.parseBoolean(parts[8]);
+                        java.time.LocalDate billingEnd = java.time.LocalDate.parse(parts[9]);
+                        double purchasePrice = Double.parseDouble(parts[10]);
+                        double monthlyInstallment = Double.parseDouble(parts[11]);
+                        int monthsUntilOwnership = Integer.parseInt(parts[12]);
+                        boolean hasPurchased = Boolean.parseBoolean(parts[13]);
+                        rentals.add(new RentToBuyRental(id, userId, vehicleId, startDate, endDate, isActive, months, autoRenew, billingEnd, purchasePrice, monthlyInstallment, monthsUntilOwnership, hasPurchased));
+                    }
+    
+                    rentalCounter = Math.max(rentalCounter, id + 1);
+                } catch (Exception e) {
+                    System.out.println("Invalid rental record: " + line);
                 }
-
-                rentalCounter = Math.max(rentalCounter, id + 1);
             }
             br.close();
         } catch (IOException e) {
-            System.out.println("Error reading files.");
+            System.out.println("Error reading files: " + e.getMessage());
         }
     }
+    
 
     static void saveData() {
         try {
