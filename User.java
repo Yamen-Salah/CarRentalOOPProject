@@ -20,12 +20,18 @@ class User {
         return name;
     }
     void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty.");
+        }
         this.name = name;
     }
     String getPhone() {
         return phone;
     }
     void setPhone(String phone) {
+        if (phone == null || phone.trim().isEmpty()) {
+            throw new IllegalArgumentException("Phone number cannot be empty.");
+        }
         this.phone = phone;
     }
 }

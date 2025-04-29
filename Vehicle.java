@@ -33,6 +33,9 @@ class Vehicle {
         return model;
     }
     void setModel(String model) {
+        if (model == null || model.trim().isEmpty()) {
+            throw new IllegalArgumentException("Model cannot be empty.");
+        }
         this.model = model;
     }
     Year getYear() {
@@ -51,6 +54,9 @@ class Vehicle {
         return pricePerDay;
     }
     void setPricePerDay(double pricePerDay) {
+        if (pricePerDay < 0) {
+            throw new IllegalArgumentException("Price per day cannot be negative.");
+        }
         this.pricePerDay = pricePerDay;
     }
     void displayInfo()

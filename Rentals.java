@@ -8,6 +8,12 @@ class Rentals {
     private boolean isActive;
 
     Rentals(int id, int userId, int vehicleId, LocalDate startDate, LocalDate endDate, boolean isActive) {
+        if (startDate == null || endDate == null) {
+            throw new IllegalArgumentException("Dates cannot be null.");
+        }
+        if (endDate.isBefore(startDate)) {
+            throw new IllegalArgumentException("End date cannot be before start date.");
+        }
         this.id = id;
         this.userId = userId;
         this.vehicleId = vehicleId;
@@ -43,11 +49,15 @@ class Rentals {
         return endDate;
     }
     void setEndDate(LocalDate endDate) {
-        if(endDate.isBefore(startDate)) {
+        if (endDate == null) {
+            throw new IllegalArgumentException("End date cannot be null.");
+        }
+        if (endDate.isBefore(startDate)) {
             throw new IllegalArgumentException("End date cannot be before start date.");
         }
         this.endDate = endDate;
     }
+    
     boolean isActive() {
         return isActive;
     }

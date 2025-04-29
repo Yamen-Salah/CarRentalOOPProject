@@ -19,16 +19,12 @@ class RentalManager {
         return rentalCounter;
     }
     
-
-
     void viewAllRentals() {
         System.out.println("\n--- All Rentals ---");
         for (Rentals rental : rentals) {
             System.out.println("Rental ID: " + rental.getId());
         }
     }
-
-
 
     void createRental() {
         if (users.isEmpty() || vehicles.isEmpty()) {
@@ -43,6 +39,9 @@ class RentalManager {
             System.out.println((i + 1) + ". " + users.get(i).getName());
         }
         int userIndex = Integer.parseInt(scanner.nextLine()) - 1;
+        if (userIndex < 0 || userIndex >= users.size()) {
+            throw new IllegalArgumentException("Invalid user selection.");
+        }
         User selectedUser = users.get(userIndex);
     
         System.out.println("Select vehicle:");
@@ -50,6 +49,9 @@ class RentalManager {
             System.out.println((i + 1) + ". " + vehicles.get(i).getModel());
         }
         int vehicleIndex = Integer.parseInt(scanner.nextLine()) - 1;
+        if (vehicleIndex < 0 || vehicleIndex >= vehicles.size()) {
+            throw new IllegalArgumentException("Invalid vehicle selection.");
+        }
         Vehicle selectedVehicle = vehicles.get(vehicleIndex);
     
         System.out.print("Enter rental start date (YYYY-MM-DD): ");
@@ -226,6 +228,6 @@ class RentalManager {
 
     ArrayList<Rentals> getAllRentals() {
     return rentals;
-}
+    }
 
 }
