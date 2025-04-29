@@ -65,6 +65,14 @@ class CarRentalSystem {
                     case 8:
                         vehicleManager.viewAllVehicles();
                         break;
+                    case 9:
+                        try {
+                            vehicleManager.addNewVehicle();
+                            System.out.println("Vehicle added successfully.");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                        break;
                     case 0:
                         rentalCounter = rentalManager.getRentalCounter();
                         userCounter = userManager.getUserCounter();
@@ -92,6 +100,7 @@ class CarRentalSystem {
         System.out.println("6. Edit rental");
         System.out.println("7. View all users");
         System.out.println("8. View all vehicles");
+        System.out.println("9. Add new vehicle");
         System.out.println("0. Exit and Save");
         System.out.print("Choose an option: ");
     }
